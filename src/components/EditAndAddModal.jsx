@@ -26,7 +26,7 @@ const EditAndAddModal = () => {
   useEffect(() => {
     if (selectedTool && actionType === "edit") {
       setFormData({ ...selectedTool });
-    } else {
+    } else if (actionType === "add") {
       setFormData({
         id: "",
         name: "",
@@ -35,7 +35,7 @@ const EditAndAddModal = () => {
         longDesc: "",
         category: "",
         subCategory: "",
-        tags: [],
+        tags: [""],
       });
     }
   }, [selectedTool, actionType]);
@@ -46,7 +46,7 @@ const EditAndAddModal = () => {
 
   const handleAddTag = () => {
     const lastTag = formData.tags[formData.tags.length - 1];
-    if (lastTag && lastTag.trim() !== "") {
+    if (formData.tags.length == 0 || (lastTag && lastTag.trim() !== "")) {
       setFormData((prev) => ({
         ...prev,
         tags: [...prev.tags, ""],
@@ -97,7 +97,7 @@ const EditAndAddModal = () => {
       longDesc: "",
       category: "",
       subCategory: "",
-      tags: [],
+      tags: [""],
     });
   };
 
@@ -185,7 +185,7 @@ const EditAndAddModal = () => {
               ))}
               <button
                 type="button"
-                className="bg-green-500 text-white px-3 py-1 rounded mt-2"
+                className="cursor-pointer bg-green-500 text-white px-3 py-1 rounded mt-2"
                 onClick={handleAddTag}
               >
                 + Add Tag

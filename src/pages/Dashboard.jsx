@@ -28,12 +28,15 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto bg-grey-800">
       <div id="tools-section" className="p-6 min-h-screen">
-        <button
-          className="cursor-pointer bg-blue-600 text-white font-bold p-4 m-2 w-52 border-r-blue-600 rounded"
-          onClick={handleAddTool}
-        >
-          Add Tool
-        </button>
+      <button
+  className="cursor-pointer bg-blue-600 text-white font-bold py-2 px-4 m-2 w-52 rounded-lg border border-blue-600 
+             hover:bg-blue-700 transition duration-200 ease-in-out 
+             focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+  onClick={handleAddTool}
+>
+  Add Tool
+</button>
+
         <SearchFilter />
         {filteredTools.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-2 p-2">
