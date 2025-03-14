@@ -29,7 +29,7 @@ const Dashboard = () => {
     <div className="container mx-auto bg-grey-800">
       <div id="tools-section" className="p-6 min-h-screen">
         <button
-          className="cursor-pointer bg-blue-500 p-4 m-2 w-30 border-r-blue-600 rounded"
+          className="cursor-pointer bg-blue-600 text-white font-bold p-4 m-2 w-52 border-r-blue-600 rounded"
           onClick={handleAddTool}
         >
           Add Tool
