@@ -65,23 +65,33 @@ const useToolStore = create((set, get) => ({
   handleBackendUpdate: async () => {
     const { selectedTool, actionType, fetchTools, tools } = get(); // ✅ Extract `tools` from store state
     try {
-      if (!selectedTool) return;  
+      if (!selectedTool) return;
+  
+      const apiUrl = import.meta.env.VITE_API_URL_ADMIN_BACKEND;
+  
       if (actionType === "add") {
-        const response = await axios.post(import.meta.env.VITE_API_URL_ADMIN_BACKEND, selectedTool);
-        // set({ filteredTools: response.data });
+        await axios.post(apiUrl, selectedTool);
         toast.success("Tool added successfully!");
-        return;
       } else if (actionType === "edit") {
-        const response = await axios.patch(import.meta.env.VITE_API_URL_ADMIN_BACKEND, selectedTool);
-        set({ tools: [...tools, selectedTool], filteredTools: response.data });
-         toast.success("Tool updated successfully!");
-
+        const response = await axios.patch(apiUrl, selectedTool);
+        set({
+          tools: tools.map((tool) => (tool._id === selectedTool._id ? response.data : tool)), // ✅ Replace updated tool
+          filteredTools: tools.map((tool) => (tool._id === selectedTool._id ? response.data : tool)),
+        });
+        toast.success("Tool updated successfully!");
+      } else if (actionType === "delete") {
+        await axios.delete(apiUrl, { data: { _id: selectedTool._id } }); // ✅ Send `_id` in request body
+        set({
+          tools: tools.filter((tool) => tool._id !== selectedTool._id),
+          filteredTools: tools.filter((tool) => tool._id !== selectedTool._id),
+        });
+        toast.success("Tool deleted successfully!");
       }
-      fetchTools(); // Refresh tool list
+  
+      fetchTools(); // ✅ Refresh tool list after update
     } catch (error) {
       console.error("Error updating tools:", error);
-      toast.error(`${error.message}`);
-      // toast.error(`An error occurred while ${actionType === "add" ? "adding" : "updating"} tools. Please try again.`);
+      toast.error(`Error while ${actionType}. Please try again.`);
     }
   },
 

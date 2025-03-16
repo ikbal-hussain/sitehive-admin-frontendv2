@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { SignIn } from "@clerk/clerk-react";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/layout/Navbar";
@@ -8,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import useAxiosInterceptor from "./hooks/useAxiosInterceptor";
 import NotFound from "./pages/NotFound"; // Import the NotFound component
 import { ToastContainer } from "react-toastify";
+import SignInPage from "./pages/SignInPage";
 
 function App() {
   useAxiosInterceptor();
@@ -18,7 +18,7 @@ function App() {
       <main className="pt-20">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-in" element={<SignInPage />} />
 
           {/* Protect Dashboard Route */}
           <Route

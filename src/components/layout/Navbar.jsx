@@ -13,7 +13,7 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50 mb-26">
-      <div className="container mx-auto flex justify-between items-center p-4">
+      <div className="container mx-auto flex justify-between items-center p-2">
         {/* Logo */}
         <Link to="/" className="flex items-center">
           <img
