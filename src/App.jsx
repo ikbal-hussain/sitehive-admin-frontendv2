@@ -8,6 +8,7 @@ import useAxiosInterceptor from "./hooks/useAxiosInterceptor";
 import NotFound from "./pages/NotFound"; // Import the NotFound component
 import { ToastContainer } from "react-toastify";
 import SignInPage from "./pages/SignInPage";
+import BulkUpload from "./pages/BulkUpload";
 
 function App() {
   useAxiosInterceptor();
@@ -26,6 +27,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bulk-upload"
+            element={
+              <ProtectedRoute>
+                <BulkUpload />
               </ProtectedRoute>
             }
           />

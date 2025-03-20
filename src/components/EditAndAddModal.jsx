@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import useToolStore from "../store/toolStore";
+import { AiOutlineClose } from "react-icons/ai";
 
 const EditAndAddModal = () => {
   const {
@@ -22,7 +23,6 @@ const EditAndAddModal = () => {
     tags: [],
   });
 
-  // Initialize form data when selectedTool or actionType changes
   useEffect(() => {
     if (selectedTool && actionType === "edit") {
       setFormData({ ...selectedTool });
@@ -70,20 +70,12 @@ const EditAndAddModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Validate required fields
     if (!formData.name || !formData.URL || !formData.shortDesc || !formData.longDesc) {
       alert("Please fill out all required fields.");
       return;
     }
-
-    // Update the selectedTool in the store
     setSelectedTool(formData);
-
-    // Show the confirmation modal
     setShowConfirmModal(true);
-
-    // Close the edit modal
     setShowEditModal(false);
   };
 
@@ -105,12 +97,15 @@ const EditAndAddModal = () => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
+      <div className="bg-white px-7 py-2 rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto relative">
+        <button className="bg-red-400 p-1 absolute top-4 right-4 text-gray-600" onClick={handleCancel}>
+          <AiOutlineClose size={24} />
+        </button>
         <h2 className="text-xl font-semibold mb-4 text-center">
           {actionType === "edit" ? "Edit Tool" : "Add New Tool"}
         </h2>
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 gap-1">
             <input
               type="text"
               name="name"
@@ -145,24 +140,26 @@ const EditAndAddModal = () => {
               onChange={handleChange}
               required
             />
-            <input
-              type="text"
-              name="category"
-              placeholder="Category"
-              className="w-full p-2 border rounded"
-              value={formData.category || ""}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="text"
-              name="subCategory"
-              placeholder="Subcategory"
-              className="w-full p-2 border rounded"
-              value={formData.subCategory || ""}
-              onChange={handleChange}
-              required
-            />
+            <div className="grid grid-cols-2 gap-3">
+              <input
+                type="text"
+                name="category"
+                placeholder="Category"
+                className="w-full p-2 border rounded"
+                value={formData.category || ""}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="subCategory"
+                placeholder="Subcategory"
+                className="w-full p-2 border rounded"
+                value={formData.subCategory || ""}
+                onChange={handleChange}
+                required
+              />
+            </div>
             <div>
               <label className="block font-semibold">Tags</label>
               {formData.tags?.map((tag, index) => (
