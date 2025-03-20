@@ -1,7 +1,6 @@
 import React from "react";
 import { Trash2, Edit, ExternalLink } from "lucide-react";
 import useToolStore from "../store/toolStore"; 
-import { toast } from "react-toastify";
 
 const ToolCard = ({ tool }) => {
   const { setShowEditModal, setSelectedTool, setActionType, setShowConfirmModal } = useToolStore();
@@ -51,7 +50,7 @@ const ToolCard = ({ tool }) => {
           </div>
         </div>
 
-        <p className="text-white text-sm mb-4 leading-relaxed">{tool.shortDesc}</p>
+        <p className="text-white text-sm mb-1 leading-relaxed">{tool.shortDesc}</p>
         
         <div className="flex flex-wrap gap-1">
           {tool.tags.map((tag, index) => (
