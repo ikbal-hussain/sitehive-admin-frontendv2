@@ -16,7 +16,7 @@ const ConfirmModal = () => {
         <h2 className="text-lg font-semibold mb-4">Warning</h2>
         <p>Are you sure you want to {actionType === "add" ? "Add a New Tool" : actionType === "delete" ? "Delete this Tool" : "Update this Tool"}?</p>
         <button
-          className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer mt-4"
+          className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer mt-4"
           onClick={handleConfirm}
         >
           Confirm

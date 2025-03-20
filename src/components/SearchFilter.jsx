@@ -58,12 +58,12 @@ const SearchFilter = () => {
         placeholder="Search tools..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="p-2 flex-grow border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+        className="p-2 flex-grow border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
       />
       <select
         value={selectedCategory}
         onChange={(e) => setCategory(e.target.value)}
-        className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+        className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
       >
         <option value="">All Categories</option>
         {Object.keys(categories).map((category) => (
@@ -75,7 +75,7 @@ const SearchFilter = () => {
       <select
         value={selectedSubCategory}
         onChange={(e) => setSubCategory(e.target.value)}
-        className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+        className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
         disabled={!selectedCategory}
       >
         <option value="">All Subcategories</option>

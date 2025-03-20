@@ -4,11 +4,11 @@ import SearchFilter from "../components/SearchFilter";
 import EditAndAddModal from "../components/EditAndAddModal";
 import ConfirmModal from "../components/ConfirmModal";
 import ToolCard from "../components/ToolCard";
-import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const {
+    loading,
     fetchTools,
     filteredTools,
     showEditModal,
@@ -18,10 +18,10 @@ const Dashboard = () => {
   } = useToolStore();
 
   function handleAddTool() {
-    toast.info("Adding a new tool");
     setActionType("add");
     setShowEditModal(true);
   }
+
   useEffect(() => {
     fetchTools();
   }, [fetchTools]);
@@ -30,23 +30,30 @@ const Dashboard = () => {
     <div className="container mx-auto bg-grey-800">
       <div id="tools-section" className="p-6 min-h-screen">
         <button
-          className="cursor-pointer bg-blue-600 text-white font-bold py-2 px-4 m-2 w-52 rounded-lg border border-blue-600 
-             hover:bg-blue-700 transition duration-200 ease-in-out 
-             focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+          className="cursor-pointer bg-green-600 text-white font-bold py-2 px-4 m-2 w-52 rounded-lg border border-green-600 
+             hover:bg-green-700 transition duration-200 ease-in-out 
+             focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
           onClick={handleAddTool}
         >
           Add Tool
         </button>
-        <Link to = "/bulk-upload"
-          className="cursor-pointer bg-blue-600 text-white font-bold py-2 px-4 m-2 w-52 rounded-lg border border-blue-600 
-             hover:bg-blue-700 transition duration-200 ease-in-out 
-             focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+        <Link
+          to="/bulk-upload"
+          className="cursor-pointer bg-green-600 text-white font-bold py-2 px-4 m-2 w-52 rounded-lg border border-green-600 
+             hover:bg-green-700 transition duration-200 ease-in-out 
+             focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
         >
           Bulk Upload
         </Link>
 
         <SearchFilter />
-        {filteredTools.length > 0 ? (
+
+        {loading ? (
+          // **Loading Spinner**
+          <div className="flex justify-center items-center h-32">
+            <div className="w-12 h-12 border-4 border-gray-300 border-t-green-600 rounded-full animate-spin"></div>
+          </div>
+        ) : filteredTools.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 mt-2 p-2">
             <Suspense fallback={<div>Loading...</div>}>
               {filteredTools.map((tool) => (
@@ -63,6 +70,7 @@ const Dashboard = () => {
           </div>
         )}
       </div>
+
       {showEditModal && <EditAndAddModal />}
       {showConfirmModal && <ConfirmModal />}
     </div>

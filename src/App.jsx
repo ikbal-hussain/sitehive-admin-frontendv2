@@ -16,7 +16,7 @@ function App() {
     <Router>
       <Navbar />
       <ToastContainer />
-      <main className="pt-20">
+      <main className="mt-17">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sign-in" element={<SignInPage />} />

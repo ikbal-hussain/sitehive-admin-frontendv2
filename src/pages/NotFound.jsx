@@ -9,7 +9,7 @@ const NotFound = () => {
         Oops! The page you are looking for doesn't exist.
       </p>
       
-      <Link to="/" className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2">
+      <Link to="/" className="mt-4 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center gap-2">
         <ArrowLeft size={20} />
         Go Back Home
       </Link>

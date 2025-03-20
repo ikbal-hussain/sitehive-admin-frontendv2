@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { toast } from "react-toastify";
 
 const useToolStore = create((set, get) => ({
+  loading: false,
   tools: [],
   filteredTools: [],
   searchTerm: "",
@@ -19,13 +20,16 @@ const useToolStore = create((set, get) => ({
   setActionType: (value) => set({ actionType: value }),
 
   fetchTools: async () => {
+    set({loading: true})
     try {
-
+     
       const response = await axios.get(import.meta.env.VITE_API_URL_ADMIN_BACKEND);
       set({ tools: response.data, filteredTools: response.data });
     } catch (error) {
       console.error("Error fetching tools:", error);
       toast.error("Failed to fetch tools. Please try again.");
+    } finally{
+      set({loading: false})
     }
   },
   

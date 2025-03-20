@@ -192,7 +192,7 @@ const EditAndAddModal = () => {
           <div className="flex justify-end mt-4">
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded"
+              className="bg-green-600 text-white px-4 py-2 rounded"
             >
               {actionType === "edit" ? "Update" : "Add"}
             </button>

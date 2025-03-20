@@ -18,8 +18,8 @@ const ToolCard = ({ tool }) => {
   };
 
   return (
-    <div className="relative bg-gradient-to-br from-blue-700 via-blue-600 to-blue-400 shadow-xl rounded-2xl p-3 border border-blue-700/50 backdrop-blur-lg">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/30 via-blue-500/30 to-blue-400/30 opacity-75 rounded-2xl group-hover:opacity-50 transition-opacity"></div>
+    <div className="relative bg-gradient-to-br from-green-700 via-green-600 to-green-400 shadow-xl rounded-2xl p-3 border border-green-700/50 backdrop-blur-lg">
+      <div className="absolute inset-0 bg-gradient-to-br from-green-600/30 via-green-500/30 to-green-400/30 opacity-75 rounded-2xl group-hover:opacity-50 transition-opacity"></div>
       
       <div className="relative z-10">
         <div className="flex justify-between items-center mb-0">
@@ -31,12 +31,12 @@ const ToolCard = ({ tool }) => {
               href={tool.URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white group-hover:text-blue-300 transition-colors cursor-pointer hover:scale-110 transition-transform duration-200"
+              className="text-white group-hover:text-green-300 transition-colors cursor-pointer hover:scale-110 transition-transform duration-200"
             >
               <ExternalLink />
             </a>
             <button
-              className="text-white group-hover:text-blue-300 transition-colors cursor-pointer hover:scale-110 transition-transform duration-200"
+              className="text-white group-hover:text-green-300 transition-colors cursor-pointer hover:scale-110 transition-transform duration-200"
               onClick={handleEdit}
             >
               <Edit />
@@ -54,7 +54,7 @@ const ToolCard = ({ tool }) => {
         
         <div className="flex flex-wrap gap-1">
           {tool.tags.map((tag, index) => (
-            <span key={index} className="text-xs px-2 py-[2px] rounded-md border border-blue-400/40 text-blue-600 bg-violet-100">
+            <span key={index} className="text-xs px-2 py-[2px] rounded-md border border-green-400/40 text-green-600 bg-violet-100">
               {tag}
             </span>
           ))}
