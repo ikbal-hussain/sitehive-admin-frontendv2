@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import { logout } from "../../utils/auth";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,12 +40,28 @@ const Navbar = () => {
 
         {/* User Actions */}
         <div className="hidden md:flex items-center">
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <Link
+              to="/sign-up"
+              className={`px-6 py-3 text-lg font-semibold rounded-lg transition ${
+                location.pathname === "/sign-up" ? "bg-green-100 text-green-700" : "hover:text-green-600"
+              }`}
+            >
+              Sign Up
+            </Link>
+          <Link 
+              to="/login"
+              className={`px-6 py-3 text-lg font-semibold rounded-lg transition ${
+                location.pathname === "/login" ? "bg-green-100 text-green-700" : "hover:text-green-600"
+              }`}
+            >
+              Login
+            </Link>
+          <Link onClick={() => logout()}
+              to="/login"
+              className={`px-6 py-3 text-lg font-semibold rounded-lg transition`}
+            >
+              Logout
+            </Link>
         </div>
 
         {/* Mobile Menu Button */}

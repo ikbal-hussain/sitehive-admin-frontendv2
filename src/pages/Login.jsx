@@ -1,45 +1,36 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../api/auth";
+import { loginUser } from "../api/auth";
 import { setToken } from "../utils/auth";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 
-export default function SignUpPage() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    
     try {
-      const res = await registerUser({ email, password, name });
+      const res = await loginUser({ email, password });
       setToken(res.data.token);
       navigate("/dashboard");
-    } catch (err) {
-      alert("Registration failed. Try again.");
+    } catch {
+      alert("Invalid Credentials");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-sm flex flex-col items-center gap-6">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">Sign Up</h2>
-        <form onSubmit={handleRegister} className="flex flex-col gap-4 w-full">
-          <input
-            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Full Name"
-            required
-          />
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">Login</h2>
+        <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full">
           <input
             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            type="email"
             placeholder="Email"
+            type="email"
             required
           />
           <input
@@ -54,7 +45,7 @@ export default function SignUpPage() {
             type="submit"
             className="bg-blue-600 text-white rounded py-2 font-semibold hover:bg-blue-700 transition"
           >
-            Sign Up
+            Login
           </button>
         </form>
         <div className="flex items-center w-full my-2">
@@ -67,3 +58,4 @@ export default function SignUpPage() {
     </div>
   );
 }
+

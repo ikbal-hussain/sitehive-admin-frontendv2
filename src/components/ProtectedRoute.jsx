@@ -1,9 +1,7 @@
 import { Navigate } from "react-router-dom";
-import { useUser } from "@clerk/clerk-react";
+import { getToken } from "../utils/auth";
 
-const ProtectedRoute = ({ children }) => {
-  const { isSignedIn } = useUser();
-  return isSignedIn ? children : <Navigate to="/sign-in" />;
-};
-
-export default ProtectedRoute;
+export default function ProtectedRoute({ children }) {
+  const token = getToken();
+  return token ? children : <Navigate to="/login" />;
+}

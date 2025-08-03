@@ -4,14 +4,15 @@ import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
-import useAxiosInterceptor from "./hooks/useAxiosInterceptor";
+// import useAxiosInterceptor from "./hooks/useAxiosInterceptor";
 import NotFound from "./pages/NotFound"; // Import the NotFound component
 import { ToastContainer } from "react-toastify";
-import SignInPage from "./pages/SignInPage";
+import Login from "./pages/Login";
 import BulkUpload from "./pages/BulkUpload";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
-  useAxiosInterceptor();
+  // useAxiosInterceptor();
   return (
     <Router>
       <Navbar />
@@ -19,7 +20,8 @@ function App() {
       <main className="mt-17">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sign-in" element={<SignInPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
 
           {/* Protect Dashboard Route */}
           <Route
