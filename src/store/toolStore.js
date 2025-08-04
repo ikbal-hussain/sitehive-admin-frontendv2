@@ -87,15 +87,29 @@ const useToolStore = create((set, get) => ({
     }
   },
 
+  fetchToolById: async (id) => {
+    const baseUrl = import.meta.env.VITE_API_URL_ADMIN_BACKEND;
+    if (!baseUrl) {
+      throw new Error("baseUrl is not defined");
+    }
+    try {
+      const response = await axios.get(`${baseUrl}/api/tools/${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Error fetching tool");
+    }
+  },
+
   fetchCategories: async () => {
     try {
       set({ loading: true });
       const baseUrl = import.meta.env.VITE_API_URL_ADMIN_BACKEND;
-      const response = await axios.get(`${baseUrl}/api/tools/categories`);
+      
+      const response = await axios.get(`${baseUrl}/api/categories`);
       set({ categories: response.data });
     } catch (error) {
       console.error("Error fetching categories:", error);
-      toast.error("Failed to fetch categories. Please try again.");
+      toast.error("Failed to fetch categories.");
     } finally {
       set({ loading: false });
     }
@@ -154,7 +168,7 @@ const useToolStore = create((set, get) => ({
         toast.success("Tool added successfully!");
       } else if (actionType === "edit") {
         const response = await axios.patch(
-          `${apiUrl}/${selectedTool._id}`,
+          `${apiUrl}`,
           selectedTool
         );
         set({
@@ -167,7 +181,12 @@ const useToolStore = create((set, get) => ({
         });
         toast.success("Tool updated successfully!");
       } else if (actionType === "delete") {
-        await axios.delete(`${apiUrl}/${selectedTool._id}`);
+        const id = selectedTool._id;
+        console.log("Deleting tool with id:", id);
+        console.log("selectedTool", selectedTool);
+
+        
+        await axios.delete(`${apiUrl}`, { data: selectedTool });
         set({
           tools: tools.filter((tool) => tool._id !== selectedTool._id),
           filteredTools: tools.filter(
@@ -186,7 +205,7 @@ const useToolStore = create((set, get) => ({
 
   handleConfirm: async () => {
     try {
-      set({ showConfirmModal: false, showEditModal: false });
+      set({ showConfirmModal: false});
       await get().handleBackendUpdate();
     } catch (error) {
       console.error("Error in handleConfirm:", error);

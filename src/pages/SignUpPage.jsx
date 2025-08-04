@@ -16,7 +16,7 @@ export default function SignUpPage() {
     try {
       const res = await registerUser({ email, password, name });
       setToken(res.data.token);
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       alert("Registration failed. Try again.");
     }
@@ -62,7 +62,7 @@ export default function SignUpPage() {
           <span className="mx-2 text-gray-400">or</span>
           <hr className="flex-grow border-gray-300" />
         </div>
-        <GoogleLoginButton onSuccess={() => navigate("/dashboard")} />
+        <GoogleLoginButton onSuccess={() => navigate("/")} />
       </div>
     </div>
   );

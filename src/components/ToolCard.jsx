@@ -1,17 +1,23 @@
 import React from "react";
 import { Trash2, Edit, ExternalLink } from "lucide-react";
 import useToolStore from "../store/toolStore"; 
+import { useNavigate } from "react-router-dom";
+
 
 const ToolCard = ({ tool }) => {
-  const { setShowEditModal, setSelectedTool, setActionType, setShowConfirmModal } = useToolStore();
-
+  const { setSelectedTool, setActionType, setShowConfirmModal } = useToolStore();
+const navigate = useNavigate();
   const handleEdit = () => {
     setSelectedTool(tool);
-    setActionType("edit");
-    setShowEditModal(true);
+    console.log("Editing tool id:", tool.tool_id);
+    
+    navigate(`/tools/edit/${tool.tool_id}`); // Navigate to edit page
+    // setActionType("edit");
+    // setShowEditModal(true);
   };
 
   const handleDelete = () => {
+    console.log("Deleting tool id:", tool.tool_id);
     setSelectedTool(tool);
     setActionType("delete");
     setShowConfirmModal(true);

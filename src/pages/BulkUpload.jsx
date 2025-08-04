@@ -58,8 +58,8 @@ export default function BulkUpload() {
   };
 
   return (
-    <div className="px-7 py-4 w-full bg-green-300 rounded-xl shadow-lg border border-gray-300 m-4 flex gap-7">
-      <div className="w-1/3 flex flex-col">
+    <div className="px-7 py-4 w-full bg-green-300 rounded-xl shadow-lg border border-gray-300 m-4 flex gap-7 mt-8 pt-4">
+      <div className="w-1/3 flex flex-col mt-8 pt-7">
         <button
           className="flex items-center my-1 px-3 py-2 bg-green-600 text-white rounded-lg font-medium w-full hover:bg-green-700 transition-all"
           onClick={() => navigate(-1)}
