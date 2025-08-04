@@ -1,25 +1,32 @@
 import { Suspense, useEffect } from "react";
 import useToolStore from "../store/toolStore";
 import SearchFilter from "../components/SearchFilter";
-import EditAndAddModal from "../components/EditAndAddModal";
-import ConfirmModal from "../components/ConfirmModal";
+// import EditAndAddModal from "../components/EditAndAddModal";
+// import ConfirmModal from "../components/ConfirmModal";
 import ToolCard from "../components/ToolCard";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ConfirmModal from "../components/ConfirmModal";
 
-const Dashboard = () => {
+
+const Tools = () => {
   const {
     loading,
     fetchTools,
     filteredTools,
-    showEditModal,
-    setShowEditModal,
-    setActionType,
+    // showEditModal,
+    // setShowEditModal,
+    // setActionType,
+    actionType,
     showConfirmModal,
   } = useToolStore();
+const navigate = useNavigate();
 
   function handleAddTool() {
-    setActionType("add");
-    setShowEditModal(true);
+    navigate(`/tools/add`); 
+
+    // setActionType("add");
+    // setShowEditModal(true);
   }
 
   useEffect(() => {
@@ -38,7 +45,7 @@ const Dashboard = () => {
           Add Tool
         </button>
         <Link
-          to="/bulk-upload"
+          to="/tools/bulk-upload"
           className="cursor-pointer bg-green-600 text-white font-bold py-2 px-4 m-2 w-52 rounded-lg border border-green-600 
              hover:bg-green-700 transition duration-200 ease-in-out 
              focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
@@ -71,10 +78,10 @@ const Dashboard = () => {
         )}
       </div>
 
-      {showEditModal && <EditAndAddModal />}
-      {showConfirmModal && <ConfirmModal />}
+      {/* {showEditModal && <EditAndAddModal />} */}
+      {actionType === "delete" && showConfirmModal && <ConfirmModal />}
     </div>
   );
 };
 
-export default Dashboard;
+export default Tools;

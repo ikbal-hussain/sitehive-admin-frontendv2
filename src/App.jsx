@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
+import Tools from "./pages/Tools";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -10,6 +10,10 @@ import { ToastContainer } from "react-toastify";
 import Login from "./pages/Login";
 import BulkUpload from "./pages/BulkUpload";
 import SignUpPage from "./pages/SignUpPage";
+import AddTool from "./pages/AddTool";
+import EditTool from "./pages/EditTool";
+import Categories from "./pages/Categories";
+import TagsManager from "./pages/TagsManager";
 
 function App() {
   // useAxiosInterceptor();
@@ -23,20 +27,52 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUpPage />} />
 
-          {/* Protect Dashboard Route */}
+          {/* Protect Tools Route */}
           <Route
-            path="/dashboard"
+            path="/tools"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <Tools />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/bulk-upload"
+            path="/tools/edit/:id"
+            element={
+              <ProtectedRoute>
+                <EditTool />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/tools/add"
+            element={
+              <ProtectedRoute>
+                <AddTool />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/tools/bulk-upload"
             element={
               <ProtectedRoute>
                 <BulkUpload />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/categories"
+            element={
+              <ProtectedRoute>
+                <Categories />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/tags"
+            element={
+              <ProtectedRoute>
+                <TagsManager />
               </ProtectedRoute>
             }
           />

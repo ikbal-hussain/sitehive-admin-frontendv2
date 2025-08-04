@@ -14,7 +14,7 @@ export default function Login() {
     try {
       const res = await loginUser({ email, password });
       setToken(res.data.token);
-      navigate("/dashboard");
+      navigate("/");
     } catch {
       alert("Invalid Credentials");
     }
@@ -53,7 +53,7 @@ export default function Login() {
           <span className="mx-2 text-gray-400">or</span>
           <hr className="flex-grow border-gray-300" />
         </div>
-        <GoogleLoginButton onSuccess={() => navigate("/dashboard")} />
+        <GoogleLoginButton onSuccess={() => navigate("/")} />
       </div>
     </div>
   );
