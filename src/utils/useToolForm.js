@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useToolStore from "../store/toolStore";
+import { toast } from "react-toastify";
 
 const useToolForm = (initialData = {}) => {
   const { categories, fetchCategories, allSubCategories, allTags, setCategories } = useToolStore();
@@ -127,6 +128,7 @@ const useToolForm = (initialData = {}) => {
   const validateForm = () => {
     if (!formData.name || !formData.URL || !formData.shortDesc || !formData.longDesc) {
       setError("Please fill out all required fields.");
+      toast.error("Please fill out all required fields.");
       return false;
     }
     const cleanedCategories = formData.categories
@@ -141,9 +143,11 @@ const useToolForm = (initialData = {}) => {
     );
     if (cleanedCategories.length === 0) {
       setError("Please select or add at least one category.");
+      toast.error("Please select or add at least one category.");
       return false;
     }
     if (missingSubCat) {
+      toast.error("Each category must have at least one subcategory.");
       setError("Each category must have at least one subcategory.");
       return false;
     }

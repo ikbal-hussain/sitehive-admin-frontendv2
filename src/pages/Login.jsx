@@ -26,7 +26,7 @@ export default function Login() {
         <h2 className="text-2xl font-bold mb-4 text-gray-800">Login</h2>
         <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full">
           <input
-            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
@@ -34,7 +34,7 @@ export default function Login() {
             required
           />
           <input
-            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -43,7 +43,7 @@ export default function Login() {
           />
           <button
             type="submit"
-            className="bg-blue-600 text-white rounded py-2 font-semibold hover:bg-blue-700 transition"
+            className="bg-green-600 text-white rounded py-2 font-semibold hover:bg-green-700 transition"
           >
             Login
           </button>

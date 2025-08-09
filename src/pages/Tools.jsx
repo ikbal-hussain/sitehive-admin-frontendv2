@@ -1,8 +1,6 @@
 import { Suspense, useEffect } from "react";
 import useToolStore from "../store/toolStore";
 import SearchFilter from "../components/SearchFilter";
-// import EditAndAddModal from "../components/EditAndAddModal";
-// import ConfirmModal from "../components/ConfirmModal";
 import ToolCard from "../components/ToolCard";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +12,6 @@ const Tools = () => {
     loading,
     fetchTools,
     filteredTools,
-    // showEditModal,
-    // setShowEditModal,
-    // setActionType,
     actionType,
     showConfirmModal,
   } = useToolStore();
@@ -24,9 +19,6 @@ const navigate = useNavigate();
 
   function handleAddTool() {
     navigate(`/tools/add`); 
-
-    // setActionType("add");
-    // setShowEditModal(true);
   }
 
   useEffect(() => {

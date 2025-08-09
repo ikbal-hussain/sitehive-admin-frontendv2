@@ -23,7 +23,7 @@ function TagsManager() {
           allTags.map((tag) => (
             <div
               key={tag}
-              className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium hover:bg-blue-200 transition-colors duration-200"
+              className="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium hover:bg-green-200 transition-colors duration-200"
             >
               {tag} <span className="ml-1 text-xs">({tools.filter((tool) => tool.tags.includes(tag)).length})</span>
             </div>
