@@ -1,50 +1,118 @@
-# Sitehive-Admin-Frontend
-## React
+# Sitehive Admin Frontend
 
-# Commit Message Types
+A modern React-based admin dashboard for managing tools, categories, and tags for the Sitehive platform.
 
-Here are common types of commits (this is inspired by the Conventional Commits specification):
+## Features
 
-- **feat**: A new feature or enhancement to the application.
+- Manage tools: add, edit, delete, and filter tools
+- Category and subcategory management with dynamic selection
+- Tag management with multi-select
+- Confirmation modals for destructive actions
+- Responsive, accessible UI with Tailwind CSS
+- State management via Zustand
+- API integration for tools and categories
 
-  Example: `feat(auth): add JWT authentication`
+## Tech Stack
 
-- **fix**: A bug fix.
+- **React** (functional components, hooks)
+- **Zustand** for state management
+- **React Router** for navigation
+- **React Select** for multi-select UI
+- **Tailwind CSS** for styling
+- **Axios** for API requests
+- **React Toastify** for notifications
 
-  Example: `fix(button): resolve issue with disabled state`
+## Getting Started
 
-- **docs**: Documentation changes (e.g., README, wiki).
+### Prerequisites
 
-  Example: `docs(readme): update installation instructions`
+- Node.js (v16+ recommended)
+- npm or yarn
 
-- **style**: Code style changes (e.g., formatting, indentation) that do not affect functionality.
+### Installation
 
-  Example: `style(header): fix inconsistent indentations`
+```bash
+git clone https://github.com/your-org/sitehive-admin-frontendv2.git
+cd sitehive-admin-frontendv2
+npm install
+# or
+yarn install
+```
 
-- **refactor**: Code changes that neither fix a bug nor add a feature, but make the code easier to understand or improve performance.
+### Environment Variables
 
-  Example: `refactor(api): simplify data fetching logic`
+Create a `.env` file in the root with:
 
-- **perf**: A change that improves performance.
+```
+VITE_API_URL_ADMIN_BACKEND=http://your-backend-url
+```
 
-  Example: `perf(image): optimize image loading speed`
+### Running the App
 
-- **test**: Adding or modifying tests.
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-  Example: `test(auth): add unit tests for login endpoint`
+The app will be available at `http://localhost:5173` (or as specified by Vite).
 
-- **chore**: Minor changes, maintenance, or configuration updates (not part of the application’s business logic).
+## Usage
 
-  Example: `chore(deps): update lodash version`
+- **Tools Page:** View, search, filter, add, edit, and delete tools.
+- **Add/Edit Tool:** 
+  - Select categories and subcategories (only relevant subcategories are shown).
+  - Add new categories and subcategories on the fly.
+  - Assign multiple tags using the tag selector.
+- **Confirmation Modals:** Appear before saving or deleting tools.
 
-- **ci**: Continuous Integration changes (e.g., updating build scripts, CI configuration).
+## Project Structure
 
-  Example: `ci: add linting step to CI pipeline`
+- `src/pages/` — Main pages (AddTool, EditTool, etc.)
+- `src/components/` — Shared UI components (modals, etc.)
+- `src/store/` — Zustand stores for global state
+- `src/utils/` — Custom hooks and utilities
+- `src/assets/` — Static assets (if any)
 
-- **build**: Changes to the build system or external dependencies.
+## API Endpoints
 
-  Example: `build: upgrade Webpack configuration`
+- `/api/tools` — CRUD operations for tools
+- `/api/categories` — Fetch categories and subcategories
 
-- **breaking change**: If a commit introduces a breaking change, it's common to specify it in the footer using `BREAKING CHANGE` (optional in the footer).
+## Contributing
 
-  Example: `feat(auth): drop support for legacy authentication methods`
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feat/your-feature`)
+3. Commit your changes (see commit message conventions below)
+4. Push to the branch (`git push origin feat/your-feature`)
+5. Open a pull request
+
+### Commit Message Types
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
+
+- **feat**: A new feature or enhancement  
+  _Example:_ `feat(auth): add JWT authentication`
+- **fix**: A bug fix  
+  _Example:_ `fix(button): resolve issue with disabled state`
+- **docs**: Documentation changes  
+  _Example:_ `docs(readme): update installation instructions`
+- **style**: Code style changes (formatting, etc.)  
+  _Example:_ `style(header): fix inconsistent indentations`
+- **refactor**: Code refactoring  
+  _Example:_ `refactor(api): simplify data fetching logic`
+- **perf**: Performance improvements  
+  _Example:_ `perf(image): optimize image loading speed`
+- **test**: Adding or modifying tests  
+  _Example:_ `test(auth): add unit tests for login endpoint`
+- **chore**: Maintenance or configuration  
+  _Example:_ `chore(deps): update lodash version`
+- **ci**: Continuous Integration changes  
+  _Example:_ `ci: add linting step to CI pipeline`
+- **build**: Build system or dependency changes  
+  _Example:_ `build: upgrade Webpack configuration`
+- **breaking change**: For breaking changes, add `BREAKING CHANGE:` in the commit footer.
+
+## License
+
+MIT
