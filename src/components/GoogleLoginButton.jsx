@@ -1,6 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { googleLogin } from "../api/auth";
 import { setToken } from "../utils/auth";
+import { toast } from "react-toastify";
 
 export default function GoogleLoginButton({ onSuccess }) {
   const handleSuccess = async (response) => {
@@ -13,5 +14,5 @@ export default function GoogleLoginButton({ onSuccess }) {
     }
   };
 
-  return <GoogleLogin onSuccess={handleSuccess} onError={() => alert("Google Login Failed")} />;
+  return <GoogleLogin onSuccess={handleSuccess} onError={() => toast("Google Login Failed")} />;
 }

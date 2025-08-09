@@ -1,5 +1,6 @@
 import useToolStore from "../store/toolStore";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import Select from "react-select";
 
 const SearchFilter = () => {
   const {
@@ -7,43 +8,56 @@ const SearchFilter = () => {
     setSearchTerm,
     selectedCategory,
     setCategory,
-    selectedSubCategory,
+    selectedSubCategories,
     setSubCategory,
+    setSubCategories,
     categories,
+    allSubCategories,
     fetchCategories,
   } = useToolStore();
+
+  const [isCompact, setIsCompact] = useState(false);
 
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
 
-  // Get subcategories for the selected category
-  const subCategories =
-    categories.find((cat) => cat.name === selectedCategory)?.subCategories || [];
+  useEffect(() => {
+    const onResize = () => setIsCompact(window.innerWidth < 640);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
-  const clearFilters = () => {
-    setSearchTerm("");
-    setCategory("");
-    setSubCategory("");
+  // Subcategories options based on selected category (if chosen), else all
+  const subCategoryOptions = useMemo(() => {
+    const scoped = selectedCategory
+      ? categories.find((cat) => cat.name === selectedCategory)?.subCategories || []
+      : allSubCategories;
+    return Array.from(new Set(scoped)).map((s) => ({ value: s, label: s }));
+  }, [selectedCategory, categories, allSubCategories]);
+
+  const handleMultiChange = (vals) => {
+    const selected = (vals || []).map((v) => v.value);
+    setSubCategories(selected);
   };
 
+  const selectedValues = (selectedSubCategories || []).map((s) => ({ value: s, label: s }));
+
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-2 bg-white rounded-lg shadow-lg items-center">
-      <input
-        type="text"
-        placeholder="Search tools..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="p-2 flex-grow border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
-      />
-      {/* Category & Subcategory Dropdowns */}
-      <div className="flex flex-col md:flex-row gap-4 items-center">
-        {/* Category Dropdown */}
+    <div className="flex flex-col gap-3 p-3 bg-white rounded-lg shadow-lg">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-center">
+        <input
+          type="text"
+          placeholder="Search tools..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className={`p-2 ${isCompact ? "text-sm" : ""} border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200`}
+        />
         <select
-        
           value={selectedCategory}
           onChange={(e) => setCategory(e.target.value)}
-          className="flex-grow p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+          className={`p-2 ${isCompact ? "text-sm" : ""} border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200`}
         >
           <option value="">All Categories</option>
           {categories.map((cat) => (
@@ -52,27 +66,55 @@ const SearchFilter = () => {
             </option>
           ))}
         </select>
-
-        {/* Subcategory Dropdown */}
-        <select
-        
-          value={selectedSubCategory}
-          onChange={(e) => setSubCategory(e.target.value)}
-          className="flex-grow p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
-          disabled={!selectedCategory}
-        >
-          <option value="">All Subcategories</option>
-          {subCategories.map((sub) => (
-            <option key={sub} value={sub}>
-              {sub}
-            </option>
-          ))}
-        </select>
-
-        {/* Clear Filters Button */}
+        <div>
+          <Select
+            isMulti
+            placeholder="Subcategories"
+            classNamePrefix="react-select"
+            options={subCategoryOptions}
+            value={selectedValues}
+            onChange={handleMultiChange}
+            isDisabled={!subCategoryOptions.length}
+            styles={{
+              control: (base) => ({
+                ...base,
+                minHeight: 40,
+                borderColor: "#e5e7eb",
+                boxShadow: "none",
+                "&:hover": { borderColor: "#10b981" },
+              }),
+              multiValue: (base) => ({ ...base, backgroundColor: "#ecfdf5" }),
+              multiValueLabel: (base) => ({ ...base, color: "#065f46" }),
+              multiValueRemove: (base) => ({ ...base, color: "#047857", ":hover": { backgroundColor: "#d1fae5", color: "#065f46" } }),
+            }}
+          />
+          {/* Keep single select behavior for backward compatibility (hidden) */}
+          <select
+            value={selectedSubCategories[0] || ""}
+            onChange={(e) => setSubCategory(e.target.value)}
+            className="hidden"
+          >
+            <option value="">All Subcategories</option>
+            {subCategoryOptions.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="flex justify-between items-center">
+        <div className="text-xs text-gray-500">
+          {selectedCategory ? `Category: ${selectedCategory}` : "All categories"}
+          {selectedSubCategories?.length ? ` • Sub: ${selectedSubCategories.join(", ")}` : ""}
+        </div>
         <button
-          onClick={clearFilters}
-          className="p-3 bg-red-500 text-white rounded-lg border border-gray-300 hover:bg-red-600 transition duration-200"
+          onClick={() => {
+            setSearchTerm("");
+            setCategory("");
+            setSubCategories([]);
+          }}
+          className="p-2 bg-red-500 text-white rounded-lg border border-red-500 hover:bg-red-600 transition duration-200"
         >
           Clear Filters
         </button>

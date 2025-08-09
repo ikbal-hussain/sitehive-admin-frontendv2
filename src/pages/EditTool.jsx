@@ -102,7 +102,7 @@ const EditTool = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-gray-100 flex items-center justify-center">
         <div className="text-2xl font-semibold text-gray-600 animate-pulse">Loading...</div>
       </div>
     );
@@ -112,10 +112,10 @@ const EditTool = () => {
   const tagOptions = allTags.map(tag => ({ value: tag, label: tag }));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto">
         <div className="bg-white shadow-2xl rounded-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-green-600 to-indigo-600 p-6 flex justify-between items-center">
             <h2 className="text-3xl font-bold text-white">Edit Tool</h2>
             <button
               onClick={handleCancel}
@@ -134,7 +134,7 @@ const EditTool = () => {
                   type="text"
                   name="name"
                   placeholder="Enter tool name"
-                  className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                  className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                   value={formData.name}
                   onChange={handleChange}
                   required
@@ -146,7 +146,7 @@ const EditTool = () => {
                   type="url"
                   name="URL"
                   placeholder="Enter tool URL"
-                  className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                  className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                   value={formData.URL}
                   onChange={handleChange}
                   required
@@ -157,7 +157,7 @@ const EditTool = () => {
                 <textarea
                   name="shortDesc"
                   placeholder="Enter a brief description"
-                  className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-y"
+                  className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 resize-y"
                   value={formData.shortDesc}
                   onChange={handleChange}
                   rows="3"
@@ -169,7 +169,7 @@ const EditTool = () => {
                 <textarea
                   name="longDesc"
                   placeholder="Enter a detailed description"
-                  className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-y"
+                  className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 resize-y"
                   value={formData.longDesc}
                   onChange={handleChange}
                   rows="5"
@@ -190,7 +190,7 @@ const EditTool = () => {
                         <select
                           value={category.name}
                           onChange={(e) => handleCategoryChange(catIndex, e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                         >
                           <option value="">Select Category</option>
                           {useToolStore.getState().categories.map((cat, idx) => (
@@ -215,7 +215,7 @@ const EditTool = () => {
                           <select
                             value={subCat}
                             onChange={(e) => handleSubCategoryChange(catIndex, subCatIndex, e.target.value)}
-                            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                           >
                             <option value="">Select Subcategory</option>
                             {subCategoryOptions.map((sub) => (
@@ -229,7 +229,7 @@ const EditTool = () => {
                           {subCat === "__other__" && (
                             <input
                               type="text"
-                              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                               placeholder="Enter new subcategory"
                               value={category.subCategories[subCatIndex + 1] || ""}
                               onChange={(e) => {
@@ -252,7 +252,7 @@ const EditTool = () => {
                       ))}
                       <button
                         type="button"
-                        className="text-blue-600 hover:text-blue-700 font-medium mt-2 transition-colors duration-200"
+                        className="text-green-600 hover:text-green-700 font-medium mt-2 transition-colors duration-200"
                         onClick={() => handleAddSubCategory(catIndex)}
                       >
                         + Add Subcategory
@@ -266,11 +266,11 @@ const EditTool = () => {
                     value={newCategoryInput}
                     onChange={(e) => setNewCategoryInput(e.target.value)}
                     placeholder="Enter new category"
-                    className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                    className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                   />
                   <button
                     type="button"
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200"
                     onClick={handleAddNewCategory}
                   >
                     + Add New Category
@@ -278,7 +278,7 @@ const EditTool = () => {
                 </div>
                 <button
                   type="button"
-                  className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
+                  className="text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
                   onClick={handleAddCategory}
                 >
                   + Add Category
@@ -308,7 +308,7 @@ const EditTool = () => {
             <div className="flex justify-end space-x-4 mt-6">
               <button
                 type="submit"
-                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md cursor-pointer"
+                className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md cursor-pointer"
               >
                 Update Tool
               </button>
