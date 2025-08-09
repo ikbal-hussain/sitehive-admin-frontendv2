@@ -5,6 +5,7 @@ import axios from "axios";
 import useToolStore from "../store/toolStore";
 import { AiOutlineClose } from "react-icons/ai";
 import ConfirmModal from "../components/ConfirmModal";
+import Select from "react-select";
 
 const AddTool = () => {
     const navigate = useNavigate();
@@ -27,6 +28,8 @@ const AddTool = () => {
         handleRemoveTag,
         validateForm,
         fetchCategories,
+        allSubCategories,
+        allTags,
     } = useToolForm();
 
     const { setSelectedTool, setActionType, setShowConfirmModal, showConfirmModal } = useToolStore();
@@ -55,25 +58,19 @@ const AddTool = () => {
         setActionType("add");
         setShowConfirmModal(true);
 
-        // try {
-        //     const baseUrl = import.meta.env.VITE_API_URL_ADMIN_BACKEND;
-        //     if (!baseUrl) {
-        //         throw new Error("baseUrl is not defined");
-        //     }
-        //     await axios.post(`${baseUrl}/api/tools`, cleanedFormData);
-        //     navigate("/tools"); // Redirect to tools list
-        // } catch (err) {
-        //     setError(err.response?.data?.message || "Failed to add tool");
-        // }
     };
 
     const handleCancel = () => {
         navigate("/tools");
     };
 
+    // Helper to format options for react-select
+    const subCategoryOptions = allSubCategories.map(sub => ({ value: sub, label: sub }));
+    const tagOptions = allTags.map(tag => ({ value: tag, label: tag }));
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
+            <div className="mx-auto">
                 <div className="bg-white shadow-2xl rounded-2xl overflow-hidden">
                     <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6">
                         <h2 className="text-3xl font-bold text-white">Add New Tool</h2>
@@ -135,7 +132,12 @@ const AddTool = () => {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Categories</label>
-                                {formData.categories.map((category, catIndex) => (
+                                {formData.categories.map((category, catIndex) => {
+                                  const selectedCatObj = useToolStore.getState().categories.find(
+                                    (cat) => cat.name === category.name
+                                  );
+                                  const subCategoryOptions = selectedCatObj?.subCategories || [];
+                                  return (
                                     <div key={catIndex} className="mb-4 p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
                                         <div className="flex items-center space-x-3 mb-2">
                                             <select
@@ -144,8 +146,8 @@ const AddTool = () => {
                                                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                                             >
                                                 <option value="">Select Category</option>
-                                                {useToolStore.getState().categories.map((cat) => (
-                                                    <option key={cat._id} value={cat.name}>
+                                                {useToolStore.getState().categories.map((cat, idx) => (
+                                                    <option key={idx} value={cat.name}>
                                                         {cat.name}
                                                     </option>
                                                 ))}
@@ -159,35 +161,57 @@ const AddTool = () => {
                                                 <AiOutlineClose size={16} />
                                             </button>
                                         </div>
+                                        {/* Subcategories dropdowns */}
                                         <label className="block text-sm font-medium text-gray-700 mt-2">Subcategories</label>
                                         {category.subCategories.map((subCat, subCatIndex) => (
-                                            <div key={subCatIndex} className="flex items-center space-x-3 mb-2">
-                                                <input
-                                                    type="text"
-                                                    className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                                                    value={subCat}
-                                                    onChange={(e) => handleSubCategoryChange(catIndex, subCatIndex, e.target.value)}
-                                                    placeholder="Enter subcategory"
-                                                />
-                                                <button
-                                                    type="button"
-                                                    className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors duration-200"
-                                                    onClick={() => handleRemoveSubCategory(catIndex, subCatIndex)}
-                                                    aria-label="Remove subcategory"
-                                                >
-                                                    <AiOutlineClose size={16} />
-                                                </button>
-                                            </div>
+                                          <div key={subCatIndex} className="flex items-center space-x-3 mb-2">
+                                            <select
+                                              value={subCat}
+                                              onChange={(e) => handleSubCategoryChange(catIndex, subCatIndex, e.target.value)}
+                                              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                                            >
+                                              <option value="">Select Subcategory</option>
+                                              {subCategoryOptions.map((sub) => (
+                                                <option key={sub} value={sub}>
+                                                  {sub}
+                                                </option>
+                                              ))}
+                                              <option value="__other__">Other</option>
+                                            </select>
+                                            {/* If "Other" is selected, show input */}
+                                            {subCat === "__other__" && (
+                                              <input
+                                                type="text"
+                                                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                                                placeholder="Enter new subcategory"
+                                                value={category.subCategories[subCatIndex + 1] || ""}
+                                                onChange={(e) => {
+                                                  const newSubCategories = [...category.subCategories];
+                                                  newSubCategories[subCatIndex + 1] = e.target.value;
+                                                  handleSubCategoryChange(catIndex, null, newSubCategories);
+                                                }}
+                                              />
+                                            )}
+                                            <button
+                                              type="button"
+                                              className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors duration-200"
+                                              onClick={() => handleRemoveSubCategory(catIndex, subCatIndex)}
+                                              aria-label="Remove subcategory"
+                                            >
+                                              <AiOutlineClose size={16} />
+                                            </button>
+                                          </div>
                                         ))}
                                         <button
-                                            type="button"
-                                            className="text-blue-600 hover:text-blue-700 font-medium mt-2 transition-colors duration-200"
-                                            onClick={() => handleAddSubCategory(catIndex)}
+                                          type="button"
+                                          className="text-blue-600 hover:text-blue-700 font-medium mt-2 transition-colors duration-200"
+                                          onClick={() => handleAddSubCategory(catIndex)}
                                         >
-                                            + Add Subcategory
+                                          + Add Subcategory
                                         </button>
                                     </div>
-                                ))}
+                                  );
+                                })}
                                 <div className="flex items-center space-x-3 mb-4">
                                     <input
                                         type="text"
@@ -214,32 +238,22 @@ const AddTool = () => {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
-                                {formData.tags.map((tag, index) => (
-                                    <div key={index} className="flex items-center space-x-3 mb-2">
-                                        <input
-                                            type="text"
-                                            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                                            value={tag}
-                                            onChange={(e) => handleTagChange(index, e.target.value)}
-                                            placeholder="Enter tag"
-                                        />
-                                        <button
-                                            type="button"
-                                            className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors duration-200"
-                                            onClick={() => handleRemoveTag(index)}
-                                            aria-label="Remove tag"
-                                        >
-                                            <AiOutlineClose size={16} />
-                                        </button>
-                                    </div>
-                                ))}
-                                <button
-                                    type="button"
-                                    className="text-blue-600 hover:text-blue-700 font-medium mt-2 transition-colors duration-200"
-                                    onClick={handleAddTag}
-                                >
-                                    + Add Tag
-                                </button>
+                                <Select
+                                  isMulti
+                                  isSearchable
+                                  options={tagOptions}
+                                  value={formData.tags
+                                    .filter(Boolean)
+                                    .map(tag => ({ value: tag, label: tag }))
+                                  }
+                                  onChange={selectedOptions => {
+                                    handleTagChange(
+                                      null,
+                                      selectedOptions ? selectedOptions.map(opt => opt.value) : []
+                                    );
+                                  }}
+                                  className="mb-2"
+                                />
                             </div>
                         </div>
                         <div className="flex justify-end space-x-4 mt-6">

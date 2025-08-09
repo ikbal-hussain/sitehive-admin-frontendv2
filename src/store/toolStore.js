@@ -54,11 +54,14 @@ const useToolStore = create((set, get) => ({
   showEditModal: false,
   actionType: "",
   categories: [],
+  allSubCategories: [],
+  allTags: [],
 
   setShowEditModal: (value) => set({ showEditModal: value }),
   setShowConfirmModal: (value) => set({ showConfirmModal: value }),
   setSelectedTool: (value) => set({ selectedTool: value }),
   setActionType: (value) => set({ actionType: value }),
+  setCategories: (categories) => set({ categories }),
 
   fetchTools: async () => {
     set({ loading: true });
@@ -68,7 +71,26 @@ const useToolStore = create((set, get) => ({
         throw new Error("baseUrl is not defined");
       }
       const response = await axios.get(`${baseUrl}/api/tools`);
-      set({ tools: response.data });
+      // Extract all unique subcategories and tags
+      const allSubCategories = [
+        ...new Set(
+          response.data.flatMap(tool =>
+            (tool.categories || []).flatMap(cat =>
+              (cat.subCategories || [])
+            )
+          ).filter(Boolean)
+        ),
+      ];
+      const allTags = [
+        ...new Set(
+          response.data.flatMap(tool => tool.tags || []).filter(Boolean)
+        ),
+      ];
+      set({ 
+        tools: response.data,
+        allSubCategories,
+        allTags,
+      });
       // Apply current filters after fetching
       const { searchTerm, selectedCategory, selectedSubCategory } = get();
       set({

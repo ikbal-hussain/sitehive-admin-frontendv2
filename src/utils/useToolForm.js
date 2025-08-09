@@ -2,7 +2,7 @@ import { useState } from "react";
 import useToolStore from "../store/toolStore";
 
 const useToolForm = (initialData = {}) => {
-  const { categories, fetchCategories } = useToolStore();
+  const { categories, fetchCategories, allSubCategories, allTags, setCategories } = useToolStore();
 
   const [formData, setFormData] = useState({
     name: initialData.name || "",
@@ -27,7 +27,24 @@ const useToolForm = (initialData = {}) => {
 
   const handleSubCategoryChange = (catIndex, subCatIndex, value) => {
     const newCategories = [...formData.categories];
-    newCategories[catIndex].subCategories[subCatIndex] = value;
+    if (Array.isArray(value)) {
+      // For multi-select or bulk update
+      newCategories[catIndex].subCategories = value;
+    } else if (subCatIndex !== null && subCatIndex !== undefined) {
+      // For dropdown change
+      newCategories[catIndex].subCategories[subCatIndex] = value;
+      // If "Other" is selected, add an empty string for the new subcategory input
+      if (value === "__other__" && !newCategories[catIndex].subCategories[subCatIndex + 1]) {
+        newCategories[catIndex].subCategories[subCatIndex + 1] = "";
+      }
+      // If not "Other", remove any extra input after this subcategory
+      if (value !== "__other__" && newCategories[catIndex].subCategories[subCatIndex + 1] === "") {
+        newCategories[catIndex].subCategories.splice(subCatIndex + 1, 1);
+      }
+    } else {
+      // For direct array update (e.g., from input)
+      newCategories[catIndex].subCategories = value;
+    }
     setFormData({ ...formData, categories: newCategories });
   };
 
@@ -42,7 +59,13 @@ const useToolForm = (initialData = {}) => {
   };
 
   const handleAddNewCategory = () => {
+    console.log("Adding new category:", newCategoryInput);
+    // Check if the new category input is not empty and does not already exist
     if (newCategoryInput.trim() !== "" && !categories.some(cat => cat.name === newCategoryInput)) {
+
+      const updatedCategories = [...categories, { name: newCategoryInput, subCategories: [] }];
+      setCategories(updatedCategories)
+
       setFormData((prev) => ({
         ...prev,
         categories: [...prev.categories, { name: newCategoryInput, subCategories: [""] }],
@@ -89,13 +112,8 @@ const useToolForm = (initialData = {}) => {
     }
   };
 
-  const handleTagChange = (index, value) => {
-    const isDuplicate = formData.tags.some((tag, i) => i !== index && tag === value);
-    if (!isDuplicate) {
-      const newTags = [...formData.tags];
-      newTags[index] = value;
-      setFormData({ ...formData, tags: newTags });
-    }
+  const handleTagChange = (_unused, value) => {
+    setFormData({ ...formData, tags: value });
   };
 
   const handleRemoveTag = (index) => {
@@ -115,10 +133,18 @@ const useToolForm = (initialData = {}) => {
       .filter(cat => cat.name.trim() !== "")
       .map(cat => ({
         name: cat.name,
-        subCategories: cat.subCategories.filter(sub => sub.trim() !== ""),
+        subCategories: cat.subCategories.filter(sub => sub.trim() !== "" && sub !== "__other__"),
       }));
+    // Ensure every category has at least one subcategory
+    const missingSubCat = cleanedCategories.some(
+      (cat) => !cat.subCategories || cat.subCategories.length === 0
+    );
     if (cleanedCategories.length === 0) {
       setError("Please select or add at least one category.");
+      return false;
+    }
+    if (missingSubCat) {
+      setError("Each category must have at least one subcategory.");
       return false;
     }
     return cleanedCategories;
@@ -144,6 +170,8 @@ const useToolForm = (initialData = {}) => {
     handleRemoveTag,
     validateForm,
     fetchCategories,
+    allSubCategories,
+    allTags,
   };
 };
 

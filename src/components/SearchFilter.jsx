@@ -40,6 +40,7 @@ const SearchFilter = () => {
       <div className="flex flex-col md:flex-row gap-4 items-center">
         {/* Category Dropdown */}
         <select
+        
           value={selectedCategory}
           onChange={(e) => setCategory(e.target.value)}
           className="flex-grow p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
@@ -54,6 +55,7 @@ const SearchFilter = () => {
 
         {/* Subcategory Dropdown */}
         <select
+        
           value={selectedSubCategory}
           onChange={(e) => setSubCategory(e.target.value)}
           className="flex-grow p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
